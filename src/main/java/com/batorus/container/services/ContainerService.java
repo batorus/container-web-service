@@ -37,4 +37,31 @@ public class ContainerService {
 
         return containerRepository.save(containerToUpdate);
     }
+
+    public Container find(Long id) {
+
+        Optional<Container> optional = containerRepository.findById(id);
+
+        if (!optional.isPresent())
+            throw new ResourceNotFoundException(Container.class.getSimpleName() + " with categoryId: " + id + " was not found!");
+
+        return optional.get();
+    }
+
+
+    public void delete(Long id) {
+
+        Optional<Container> optional = containerRepository.findById(id);
+
+        if (!optional.isPresent())
+            throw new ResourceNotFoundException(Container.class.getSimpleName() + " with categoryId: " + id + " was not found!");
+
+        containerRepository.delete(optional.get());
+
+    }
+
+    public List<Container> saveAll(List<Container> list) {
+        return containerRepository.saveAll(list);
+    }
+
 }
