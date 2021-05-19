@@ -3,6 +3,7 @@ package com.batorus.container.exceptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -25,7 +26,8 @@ public class ErrorAdvice{
     private ErrorAttributes errorAttributes;
 
     @ExceptionHandler({MethodArgumentNotValidException.class,
-                       ResourceNotFoundException.class})
+                       ResourceNotFoundException.class,
+                       DataIntegrityViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     ResponseEntity<ApiError> handleError(WebRequest webRequest, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> attributes = this.errorAttributes.getErrorAttributes(webRequest, ErrorAttributeOptions.of(ErrorAttributeOptions.Include.MESSAGE, ErrorAttributeOptions.Include.BINDING_ERRORS));
