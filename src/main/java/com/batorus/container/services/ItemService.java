@@ -38,4 +38,42 @@ public class ItemService {
     }
 
 
+    public Item update(Long containerId, Long itemId, Item item) {
+
+        Optional<Container> containerOptional = containerRepository.findById(containerId);
+
+        if (!containerOptional.isPresent())
+            throw new ResourceNotFoundException("Container with containerId: " + containerId + " was not found!");
+
+        Optional<Item> itemOptional = itemRepository.findById(itemId);
+
+        if (!itemOptional.isPresent())
+            throw new ResourceNotFoundException("Item with itemId: " + itemId + " was not found!");
+
+        itemOptional.get().setItemName(item.getItemName());
+        itemOptional.get().setItemDescription(item.getItemDescription());
+        itemOptional.get().setItemPrice(item.getItemPrice());
+        itemOptional.get().setItemCode(item.getItemCode());
+
+        return itemRepository.save(itemOptional.get());
+    }
+
+    public Item find(Long id) {
+        Optional<Item> optional = itemRepository.findById(id);
+
+        if (!optional.isPresent())
+            throw new ResourceNotFoundException("Item with id: " + id + " was not found!");
+
+        return optional.get();
+    }
+
+    public void delete(Long id) {
+        Optional<Item> optional = itemRepository.findById(id);
+
+        if (!optional.isPresent())
+            throw new ResourceNotFoundException("Item with id: " + id + " was not found!");
+
+        itemRepository.delete(optional.get());
+    }
+
 }
