@@ -7,6 +7,8 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "items")
@@ -35,11 +37,40 @@ public class Item extends AuditModel {
     @Column(columnDefinition = "integer default 1")
     private int enabled = 1;
 
+    //####Start M-TO-O
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "container_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Container container;
+    //###End M-TO-O
+
+    //##############################################
+    //####### Start M-to-M Owning side #############
+    //many items have many tags
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY,
+                        cascade = {
+                                CascadeType.PERSIST,
+                                CascadeType.MERGE
+                        }
+               )
+    @JoinTable(name = "items_tags",
+               joinColumns = @JoinColumn(name = "item_id"),
+               inverseJoinColumns = @JoinColumn(name = "tag_id"))
+
+    private Set<Tag> tags = new HashSet<>();
+
+    //####### End M-to-M Owning side ################
+    //###############################################
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
 
     public Container getContainer() {
         return container;

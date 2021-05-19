@@ -37,6 +37,9 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
+    public Item save(Item item){
+        return itemRepository.save(item);
+    }
 
     public Item update(Long containerId, Long itemId, Item item) {
 

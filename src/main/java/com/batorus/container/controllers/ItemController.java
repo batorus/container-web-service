@@ -1,6 +1,8 @@
 package com.batorus.container.controllers;
 
 import com.batorus.container.models.Item;
+import com.batorus.container.models.Tag;
+import com.batorus.container.repositories.TagRepository;
 import com.batorus.container.services.ContainerService;
 import com.batorus.container.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class ItemController {
 
     @Autowired
     ItemService itemService;
+
+    @Autowired
+    TagRepository tagRepository;
 
     @GetMapping("/containers/{containerId}/items")
     public List<Item> getAllItemsByContainerIdAction(@PathVariable(value = "containerId") Long containerId) {
@@ -46,6 +51,30 @@ public class ItemController {
     public Item getOneItemAction(@PathVariable Long itemId) {
 
         return itemService.find(itemId);
+    }
+
+    @GetMapping("/items/{itemId}/tags/{tagId}")
+    public Item addTagsToItemAction(@PathVariable Long itemId, @PathVariable Long tagId) {
+
+        Item item = itemService.find(itemId);
+        Tag tag = tagRepository.getOne(tagId);
+
+        item.getTags().add(tag);
+        tag.getItems().add(item);
+
+        return itemService.save(item);
+    }
+
+    @DeleteMapping("/items/{itemId}/tags/{tagId}")
+    public Item removeTagsFromItemAction(@PathVariable Long itemId, @PathVariable Long tagId) {
+
+        Item item = itemService.find(itemId);
+        Tag tag = tagRepository.getOne(tagId);
+
+        item.getTags().remove(tag);
+        //tag.getItems().remove(item);
+
+        return itemService.save(item);
     }
 
 
