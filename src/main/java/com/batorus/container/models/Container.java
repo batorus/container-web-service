@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "container")
-public class Container {
+public class Container extends AuditModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,15 +29,7 @@ public class Container {
     @Column(columnDefinition = "integer default 1")
     private int enabled = 1;
 
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_date")
-    private Date createDate;
 
-    @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "modify_date")
-    private Date modifyDate;
 
     public Container() {
     }
@@ -79,12 +71,8 @@ public class Container {
     @Override
     public String toString() {
         return "Container{" +
-                "id=" + id +
-                ", containerName='" + containerName + '\'' +
+                "containerName='" + containerName + '\'' +
                 ", containerCode='" + containerCode + '\'' +
-                ", enabled=" + enabled +
-                ", createDate=" + createDate +
-                ", modifyDate=" + modifyDate +
                 '}';
     }
 }
