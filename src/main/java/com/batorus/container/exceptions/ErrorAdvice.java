@@ -1,5 +1,6 @@
 package com.batorus.container.exceptions;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -27,7 +28,8 @@ public class ErrorAdvice{
 
     @ExceptionHandler({MethodArgumentNotValidException.class,
                        ResourceNotFoundException.class,
-                       DataIntegrityViolationException.class})
+                       DataIntegrityViolationException.class,
+                       ConstraintViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     ResponseEntity<ApiError> handleError(WebRequest webRequest, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> attributes = this.errorAttributes.getErrorAttributes(webRequest, ErrorAttributeOptions.of(ErrorAttributeOptions.Include.MESSAGE, ErrorAttributeOptions.Include.BINDING_ERRORS));

@@ -1,5 +1,6 @@
 package com.batorus.container.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class Tag {
     //############ Start M-to-M inverse side
     //many tags belong to many posts
     //################################
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
                         cascade = {
                             CascadeType.PERSIST,
@@ -38,6 +40,10 @@ public class Tag {
 
     public Tag(String tagName) {
         this.tagName = tagName;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTagName() {
