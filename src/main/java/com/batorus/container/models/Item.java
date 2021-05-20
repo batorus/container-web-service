@@ -132,4 +132,15 @@ public class Item extends AuditModel {
     public void setEnabled(int enabled) {
         this.enabled = enabled;
     }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", itemName='" + itemName + '\'' +
+                ", itemCode='" + itemCode + '\'' +
+                ", itemDescription='" + itemDescription + '\'' +
+                ", itemPrice=" + itemPrice +
+                '}';
+    }
 }
