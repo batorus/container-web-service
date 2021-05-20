@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -73,9 +75,16 @@ public class ItemController {
         Tag tag = tagService.find(tagId);
 
         item.getTags().remove(tag);
-        //tag.getItems().remove(item);
 
         return itemService.save(item);
+    }
+
+    @GetMapping("/items/{itemId}/tags")
+    public Set<Tag> getTagsForItemAction(@PathVariable Long itemId) {
+
+        Item item = itemService.find(itemId);
+
+        return item.getTags();
     }
 
 
