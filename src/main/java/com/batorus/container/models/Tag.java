@@ -24,13 +24,13 @@ public class Tag {
     //############ Start M-to-M inverse side
     //many tags belong to many posts
     //################################
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
                         cascade = {
                             CascadeType.PERSIST,
                             CascadeType.MERGE
                         },
                         mappedBy = "tags")
+    @JsonIgnore
     private Set<Item> items = new HashSet<>();
 
     //############ End M-to-M inverse side
