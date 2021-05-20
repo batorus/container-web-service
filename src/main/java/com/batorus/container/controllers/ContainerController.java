@@ -58,8 +58,8 @@ public class ContainerController {
 
     @DeleteMapping("/containers/{id}")
     public ResponseEntity<String> deleteAction(@PathVariable Long id) {
-
         containerService.delete(id);
+
         return new ResponseEntity<>("Deleted successfully!", HttpStatus.OK);
     }
 

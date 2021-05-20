@@ -61,7 +61,6 @@ public class ItemController {
 
         Item item = itemService.find(itemId);
         Tag tag = tagService.find(tagId);
-
         item.getTags().add(tag);
         tag.getItems().add(item);
 
@@ -73,7 +72,6 @@ public class ItemController {
 
         Item item = itemService.find(itemId);
         Tag tag = tagService.find(tagId);
-
         item.getTags().remove(tag);
 
         return itemService.save(item);
@@ -81,7 +79,6 @@ public class ItemController {
 
     @GetMapping("/items/{itemId}/tags")
     public Set<Tag> getTagsForItemAction(@PathVariable Long itemId) {
-
         Item item = itemService.find(itemId);
 
         return item.getTags();
@@ -90,8 +87,8 @@ public class ItemController {
 
     @DeleteMapping("/items/{itemId}")
     public ResponseEntity<String> deleteItemAction(@PathVariable Long itemId) {
-
         itemService.delete(itemId);
+
         return new ResponseEntity<>("Deleted successfully!", HttpStatus.OK);
     }
 

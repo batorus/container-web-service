@@ -47,8 +47,8 @@ public class TagController {
 
     @DeleteMapping("/tags/{id}")
     public ResponseEntity<String> deleteAction(@PathVariable Long id) {
-
         tagService.delete(id);
+
         return new ResponseEntity<>("Deleted successfully!", HttpStatus.OK);
     }
 }
