@@ -48,7 +48,6 @@ public class Item extends AuditModel {
     //##############################################
     //####### Start M-to-M Owning side #############
     //many items have many tags
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
                         cascade = {
                                 CascadeType.PERSIST,
@@ -58,7 +57,7 @@ public class Item extends AuditModel {
     @JoinTable(name = "items_tags",
                joinColumns = @JoinColumn(name = "item_id"),
                inverseJoinColumns = @JoinColumn(name = "tag_id"))
-
+    @JsonIgnore
     private Set<Tag> tags = new HashSet<>();
 
     //####### End M-to-M Owning side ################
