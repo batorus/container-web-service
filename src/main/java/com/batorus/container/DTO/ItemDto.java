@@ -59,11 +59,12 @@ public class ItemDto {
         itemDto.setId(item.getId());
         itemDto.setItemCode(item.getItemCode());
         itemDto.setItemName(item.getItemName());
-        item.setItemDescription(item.getItemDescription());
+        itemDto.setItemDescription(item.getItemDescription());
 
         if(Objects.nonNull(item.getContainer())){
             itemDto.setPlainContainerDto(PlainContainerDto.from(item.getContainer()));
         }
+
         return itemDto;
     }
 

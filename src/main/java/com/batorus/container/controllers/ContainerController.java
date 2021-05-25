@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,30 +27,28 @@ public class ContainerController {
     ItemService itemService;
 
     @GetMapping(path = "/containers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Container> listContainersAction() {
+    public List<Map<String, List<ItemDto>>> listContainersAction() {
         List<Container> containers = containerService.getAllContainers();
-        List<List<Item>> list = containers.stream().map(container->{
 
-            List<Item> items = itemService.getAllItemsByContainerId(container.getId());
+        List<Map<String, List<ItemDto>>> list = containers.stream()
+                .map(container -> {
+                    Map<String, List<ItemDto>>  ldto = new HashMap<>();
+                    List<Item> items = itemService.getAllItemsByContainerId(container.getId());
+                    String cName = container.getContainerName();
+                    if(items.size() > 0)
+                        ldto = items.stream().map(item -> ItemDto.from(item)).collect(Collectors.groupingBy(item -> cName));
+                    else
+                        ldto.put(cName, Collections.emptyList());
 
-            if(items.size()>0){
+                    return ldto;
+                })
+                .collect(Collectors.toList());
 
-                List<ItemDto> ldto = items.stream().map(ItemDto::from).collect(Collectors.toList());
-                System.out.println(ldto);
-            }
-
-
-            return items;
-
-        }).collect(Collectors.toList());
-        //System.out.println(list);
-       // List<ContainerDto> containerDto = containers.stream().map(ContainerDto::from).collect(Collectors.toList());
-
-        return containerService.getAllContainers();
+        return list;
     }
 
     @PostMapping(path = "/containers", consumes = {MediaType.APPLICATION_JSON_VALUE},
-                                       produces = {MediaType.APPLICATION_JSON_VALUE})
+            produces = {MediaType.APPLICATION_JSON_VALUE})
     public Container createAction(@Valid @RequestBody Container container) {
 
         return containerService.save(container);
