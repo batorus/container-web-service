@@ -1,6 +1,5 @@
 package com.batorus.container.controllers;
 
-import com.batorus.container.DTO.ContainerDto;
 import com.batorus.container.DTO.ItemDto;
 import com.batorus.container.models.Container;
 import com.batorus.container.models.Item;

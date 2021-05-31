@@ -1,7 +1,5 @@
 package com.batorus.container.controllers;
 
-import com.batorus.container.models.Container;
-import com.batorus.container.models.Item;
 import com.batorus.container.models.Tag;
 import com.batorus.container.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
